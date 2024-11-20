@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const plugin = require('tailwindcss/plugin')
 
 const config: Config = {
   content: [
@@ -8,12 +9,22 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
+        textShadow : {
+            terminal: "0 0 4px var(--tw-shadow-color)"
+        }
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ matchUtilities, theme }: any) {
+        matchUtilities(
+          {
+            'text-shadow': (value: string) => ({
+              textShadow: value,
+            }),
+          },
+          { values: theme('textShadow') }
+        )
+      }),
+  ],
 };
 export default config;
